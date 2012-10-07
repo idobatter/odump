@@ -17,9 +17,7 @@ int odump(FILE *fp)
   int count = 0;
   char buf[16];
   char chr[sizeof(buf) + 1];
-  while(!feof(fp)){
-    int s = fread(buf, 1, sizeof(buf), fp);
-    if(!s) break;
+  while(int s = fread(buf, 1, sizeof(buf), fp)){
     fprintf(stdout, "%08x: ", count);
     for(int i = 0; i < s; i++){
       fprintf(stdout, "%02x ", (unsigned char)buf[i]);
