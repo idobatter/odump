@@ -1,7 +1,7 @@
 odump
 =====
 
-od like dump for Windows 7
+od like dump for Windows 7 with md5sum hexdigest
 
 Relations
 ---------
