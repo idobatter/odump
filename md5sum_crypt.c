@@ -11,9 +11,8 @@
 
 #include "md5digest.h"
 
-char *hexdigest(char *plain)
+char *hexdigest(MD5DIGEST_HEX_t digest, char *plain)
 {
-  MD5DIGEST_HEX_t digest;
   MD5DIGEST_BUF_t md5hash;
   MD5DIGEST_WORK_t work;
   int worksize = sizeof(work) / sizeof(work[0]); // ? == md5digest_work_size()
@@ -31,24 +30,28 @@ char *hexdigest(char *plain)
 int main(int ac, char *av[])
 {
   if(ac < 2){
-    fprintf(stderr, "Usage 1: %s key clearpw\n", av[0]);
-    fprintf(stderr, "Usage 2: %s file_to_calc_md5hash\n", av[0]);
-    assert(0 == strcmp("d41d8cd98f00b204e9800998ecf8427e", hexdigest("")));
-    assert(0 == strcmp("0cc175b9c0f1b6a831c399e269772661", hexdigest("a")));
-    assert(0 == strcmp("900150983cd24fb0d6963f7d28e17f72", hexdigest("abc")));
-    assert(0 == strcmp("f96b697d7cb7938d525a2f31aaf161d0", hexdigest(
-      "message digest")));
-    assert(0 == strcmp("c3fcd3d76192e4007dfb496cca67e13b", hexdigest(
-      "abcdefghijklmnopqrstuvwxyz")));
-    assert(0 == strcmp("d174ab98d277d9f5a5611c2c9f419d9f", hexdigest(
+    MD5DIGEST_HEX_t digest;
+    assert(0 == strcmp("d41d8cd98f00b204e9800998ecf8427e",
+      hexdigest(digest, "")));
+    assert(0 == strcmp("0cc175b9c0f1b6a831c399e269772661",
+      hexdigest(digest, "a")));
+    assert(0 == strcmp("900150983cd24fb0d6963f7d28e17f72",
+      hexdigest(digest, "abc")));
+    assert(0 == strcmp("f96b697d7cb7938d525a2f31aaf161d0",
+      hexdigest(digest, "message digest")));
+    assert(0 == strcmp("c3fcd3d76192e4007dfb496cca67e13b",
+      hexdigest(digest, "abcdefghijklmnopqrstuvwxyz")));
+    assert(0 == strcmp("d174ab98d277d9f5a5611c2c9f419d9f", hexdigest(digest,
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")));
-    assert(0 == strcmp("57edf4a22be3c955ac49da2e2107b67a", hexdigest(
+    assert(0 == strcmp("57edf4a22be3c955ac49da2e2107b67a", hexdigest(digest,
       "1234567890123456789012345678901234567890" \
       "1234567890123456789012345678901234567890")));
-    assert(0 == strcmp("49cb3608e2b33fad6b65df8cb8f49668", hexdigest(
+    assert(0 == strcmp("49cb3608e2b33fad6b65df8cb8f49668", hexdigest(digest,
       "1234567890123456789012345678901234567890" \
       "1234567890123456789012345678901234567890" \
       "12345678901234567890")));
+    fprintf(stderr, "Usage 1: %s key clearpw\n", av[0]);
+    fprintf(stderr, "Usage 2: %s file_to_calc_md5hash\n", av[0]);
     return 1;
   }
   if(ac >= 3){
